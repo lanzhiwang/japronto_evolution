@@ -1,4 +1,4 @@
-# 使用Python每秒百万个请求
+# 使用Python每秒处理百万个请求
 
 * https://github.com/squeaky-pl/japronto
 
