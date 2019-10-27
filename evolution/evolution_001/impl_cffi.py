@@ -26,6 +26,7 @@ class HttpRequestParser:
         self.on_body = on_body
         self._reset()
 
+
     def _reset(self):
         self.request = None
         self.state = 'headers'
@@ -35,14 +36,17 @@ class HttpRequestParser:
 
         self._reset_buffer()
 
+
     def _reset_buffer(self):
         self.buffer = None
         self.buffer_len = 0
         self.buffer_consumed = 0
         self.buffer_owned = False
 
+
     def _finalize_buffer(self):
         pass
+
 
     def parse_headers(self, data):
         c_method = ffi.new('char **')
@@ -57,6 +61,7 @@ class HttpRequestParser:
         result = lib.phr_parse_request(
             self.buffer, self.buffer_len, c_method, method_len, c_path, path_len,
             minor_version, c_headers, num_headers, 0)
+        print('parse_headers:result: {}'.format(result))  # parse_headers:result: 679
 
         if result == -2:
             if self.buffer == data:
@@ -90,6 +95,7 @@ class HttpRequestParser:
 
         return result
 
+
     def parse_body(self, data):
         if not self.body_parts and self.buffer_consumed < self.buffer_len:
             if self.buffer_owned:
@@ -105,7 +111,8 @@ class HttpRequestParser:
 
 
     def feed(self, data: bytes):
-        if(self.state == 'headers'):
+        print('feed:data: {}'.format(data))
+        if self.state == 'headers':
             if not self.buffer_owned:
                 self.buffer = data
             else:
@@ -113,6 +120,7 @@ class HttpRequestParser:
             self.buffer_len += len(data)
 
             headers_result = self.parse_headers(data)
+            print('headers_result: {}'.format(headers_result))
 
             if(headers_result > 0):
                 if self.request.version == "1.0":
@@ -122,11 +130,10 @@ class HttpRequestParser:
                     self.content_length = self.request.headers.get('Content-Length')
 
                 #self.state == 'body'
-        elif(self.state == 'body'):
+
+        elif self.state == 'body':
             self.parse_body()
 
 
-
-
-    def feed_disconnect():
+    def feed_disconnect(self):
         pass

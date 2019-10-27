@@ -4,15 +4,16 @@ import cffi
 ffibuilder = cffi.FFI()
 
 shared_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'picohttpparser'))
+# /root/work/japronto_evolution/evolution/evolution_001/picohttpparser
 
-
-ffibuilder.set_source("libpicohttpparser", """
-   #include "picohttpparser.h"
-   """, libraries=['picohttpparser'], include_dirs=[shared_path], library_dirs=[shared_path],
-#   extra_objects=[os.path.join(shared_path, 'picohttpparser.o')],
-   extra_link_args=['-Wl,-rpath=' + shared_path])   # or a list of libraries to link with
-    # (more arguments like setup.py's Extension class:
-    # include_dirs=[..], extra_objects=[..], and so on)
+ffibuilder.set_source("libpicohttpparser",
+                      """
+                      #include "picohttpparser.h"
+                      """,
+                      libraries=['picohttpparser'],
+                      include_dirs=[shared_path],
+                      library_dirs=[shared_path],
+                      extra_link_args=['-Wl,-rpath=' + shared_path])
 
 ffibuilder.cdef("""
     struct phr_header {

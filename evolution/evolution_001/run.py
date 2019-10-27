@@ -46,17 +46,20 @@ def setup_cffi(dump=True):
 
 def main():
     cffi_parser = setup_cffi()
+    # print(cffi_parser)  # <impl_cffi.HttpRequestParser object at 0x7fca1c62e828>
 
     print('---- long')
     cffi_parser.feed(request)
-    print('---- short')
-    cffi_parser.feed(request2)
-    print('---- error')
-    cffi_parser.feed(b'GET / garbage')
-    print('---- in parts')
-    cffi_parser.feed(request2[:5])
-    cffi_parser.feed(request2[5:10])
-    cffi_parser.feed(request2[10:])
+    print('---- long end')
+
+    # print('---- short')
+    # cffi_parser.feed(request2)
+    # print('---- error')
+    # cffi_parser.feed(b'GET / garbage')
+    # print('---- in parts')
+    # cffi_parser.feed(request2[:5])
+    # cffi_parser.feed(request2[5:10])
+    # cffi_parser.feed(request2[10:])
 
 
 if __name__ == '__main__':
