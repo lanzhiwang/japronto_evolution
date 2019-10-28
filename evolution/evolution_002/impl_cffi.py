@@ -38,6 +38,14 @@ class HttpRequestParser(object):
         self.minor_version = ffi.new('int *')
         self.c_headers = ffi.new('struct phr_header[10]')
         self.num_headers = ffi.new('size_t *')
+        # print(self.buffer)  # bytearray(b'')
+        # print(self.c_method)  # <cdata 'char * *' owning 8 bytes>
+        # print(self.method_len)  # <cdata 'size_t *' owning 8 bytes>
+        # print(self.c_path)  # <cdata 'char * *' owning 8 bytes>
+        # print(self.path_len)  # <cdata 'size_t *' owning 8 bytes>
+        # print(self.minor_version)  # <cdata 'int *' owning 4 bytes>
+        # print(self.c_headers)  # <cdata 'struct phr_header[10]' owning 320 bytes>
+        # print(self.num_headers)  # <cdata 'size_t *' owning 8 bytes>
 
     def _reset_state(self):
         self.request = None
@@ -52,10 +60,30 @@ class HttpRequestParser(object):
         self.num_headers[0] = 10
 
         result = lib.phr_parse_request(
-            ffi.from_buffer(self.buffer), len(self.buffer),
-            self.c_method, self.method_len,
-            self.c_path, self.path_len,
-            self.minor_version, self.c_headers, self.num_headers, 0)
+            ffi.from_buffer(self.buffer),
+            len(self.buffer),
+            self.c_method,
+            self.method_len,
+            self.c_path,
+            self.path_len,
+            self.minor_version,
+            self.c_headers,
+            self.num_headers,
+            0)
+
+        """
+        const char *buf, 
+        size_t len, 
+        const char **method, 
+        size_t *method_len, 
+        const char **path, 
+        size_t *path_len,
+        int *minor_version, 
+        struct phr_header *headers, 
+        size_t *num_headers, 
+        size_t last_len
+        """
+        # print(result)  # 679
 
         if result == -2:
             return result
@@ -71,6 +99,10 @@ class HttpRequestParser(object):
         method = ffi.string(self.c_method[0], self.method_len[0]).decode('ascii')
         path = ffi.string(self.c_path[0], self.path_len[0]).decode('ascii')
         version = "1." + str(self.minor_version[0])
+        # print(method)  # GET
+        # print(path)  # /wp-content/uploads/2010/03/hello-kitty-darth-vader-pink.jpg
+        # print(version)  # 1.0
+
 
         headers = {}
         for idx in range(self.num_headers[0]):
@@ -78,6 +110,19 @@ class HttpRequestParser(object):
            name = ffi.string(header.name, header.name_len).decode('ascii').title()
            value = ffi.string(header.value, header.value_len).decode('latin1')
            headers[name] = value
+        # print(headers)
+        """
+        {
+        'Host': 'www.kittyhell.com', 
+        'User-Agent': 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; ja-JP-mac; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3 Pathtraq/0.9', 
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8', 
+        'Accept-Language': 'ja,en-us;q=0.7,en;q=0.3', 
+        'Accept-Encoding': 'gzip,deflate', 
+        'Accept-Charset': 'Shift_JIS,utf-8;q=0.7,*;q=0.7', 
+        'Keep-Alive': '115', 
+        'Cookie': 'wp_ozh_wsa_visits=2; wp_ozh_wsa_visit_lasttime=xxxxxxxxxx; __utma=xxxxxxxxx.xxxxxxxxxx.xxxxxxxxxx.xxxxxxxxxx.xxxxxxxxxx.x; __utmz=xxxxxxxxx.xxxxxxxxxx.x.x.utmccn=(referral)|utmcsr=reader.livedoor.com|utmcct=/reader/|utmcmd=referral'
+        }
+        """
 
         self.buffer = self.buffer[result:]
 
@@ -169,7 +214,6 @@ class HttpRequestParser(object):
                     self.state = 'headers'
                 elif body_result == -2:
                     return None
-
 
     def feed_disconnect(self):
         if not self.buffer:
