@@ -39,6 +39,7 @@ def geometric_series():
     while 1:
         yield s
         s *= 2
+    # 2 4 8 16 32 ...
 
 
 def fancy_series():
@@ -46,6 +47,7 @@ def fancy_series():
     while 1:
         yield int(2 + abs(math.sin(x / 5)) * 64)
         x += 1
+    # 2 14 26 38 47 55
 
 
 def make_part_functions():
@@ -88,7 +90,7 @@ def parser():
 
     '10malformed_headers1', '10malformed_headers2', '10incomplete_headers',
     '10long+10malformed_headers2', '10long+10incomplete_headers',
-    '10short+10malformed_headers1', '10short+10malformed_headers2')
+    '10short+10malformed_headers1', '10short+10malformed_headers2')  # pytest.mark.parametrize('cases', cases_list, ids=args)
 def test_http10(parser, do_parts, cases):
     for i, case in enumerate(cases, 1):
         parts = do_parts(case.data)
