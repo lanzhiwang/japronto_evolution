@@ -24,7 +24,11 @@ error=None
 
 
 '10short': HTTPTestCase(
-data=b'POST / HTTP/1.0\r\nHost: www.example.com\r\n\r\nHi!',
+data=b'
+POST / HTTP/1.0\r\n
+Host: www.example.com\r\n
+\r\n
+Hi!',
 #######################################################################
 method='POST',
 path='/',
@@ -60,7 +64,8 @@ error='malformed_headers'
 
 
 '10incomplete_headers': HTTPTestCase(
-data=b'GET / HTTP/1.0\r\nH',
+data=b'
+GET / HTTP/1.0\r\nH',
 #######################################################################
 method=None,
 path=None,
@@ -72,7 +77,9 @@ error='incomplete_headers'
 
 
 '11get': HTTPTestCase(
-data=b'GET /index.html HTTP/1.1\r\n\r\n',
+data=b'
+GET /index.html HTTP/1.1\r\n
+\r\n',
 #######################################################################
 method='GET',
 path='/index.html',
@@ -84,18 +91,27 @@ error=None
 
 
 '11clget': HTTPTestCase(
-data=b'GET /body HTTP/1.1\r\nContent-Length: 12\r\n\r\nHello World!',
+data=b'
+GET /body HTTP/1.1\r\n
+Content-Length: 12\r\n
+\r\n
+Hello World!',
 #######################################################################
 method='GET',
 path='/body',
 version='1.1',
 headers={'Content-Length': '12'},
-body=b'Hello World!', error=None
+body=b'Hello World!',
+error=None
 ),
 
 
 '11clkeep': HTTPTestCase(
-data=b'POST /login HTTP/1.1\r\nContent-Length: 5\r\n\r\nHello',
+data=b'
+POST /login HTTP/1.1\r\n
+Content-Length: 5\r\n
+\r\n
+Hello',
 #######################################################################
 method='POST',
 path='/login',
@@ -107,7 +123,10 @@ error=None
 
 
 '11clzero': HTTPTestCase(
-data=b'POST /zero HTTP/1.1\r\nContent-Length: 0\r\n\r\n',
+data=b'
+POST /zero HTTP/1.1\r\n
+Content-Length: 0\r\n
+\r\n',
 #######################################################################
 method='POST',
 path='/zero',
@@ -119,18 +138,27 @@ error=None
 
 
 '11clclose': HTTPTestCase(
-data=b'POST /logout HTTP/1.1\r\nContent-Length: 3\r\nConnection: close\r\n\r\nBye',
+data=b'
+POST /logout HTTP/1.1\r\n
+Content-Length: 3\r\n
+Connection: close\r\n
+\r\n
+Bye',
 #######################################################################
 method='POST',
 path='/logout',
 version='1.1',
 headers={'Content-Length': '3', 'Connection': 'close'},
-body=b'Bye', error=None
+body=b'Bye',
+error=None
 ),
 
 
 '11clincomplete_headers': HTTPTestCase(data=
-b'POST / HTTP/1.1\r\nContent-Length: 3\r\nI',
+b'
+POST / HTTP/1.1\r\n
+Content-Length: 3\r\n
+I',
 #######################################################################
 method=None,
 path=None,
@@ -142,7 +170,11 @@ error='incomplete_headers'
 
 
 '11clincomplete_body': HTTPTestCase(
-data=b'POST / HTTP/1.1\r\nContent-Length: 5\r\n\r\nI',
+data=b'
+POST / HTTP/1.1\r\n
+Content-Length: 5\r\n
+\r\n
+I',
 #######################################################################
 method='POST',
 path='/',
@@ -154,7 +186,17 @@ error='incomplete_body'
 
 
 '11chunked1': HTTPTestCase(
-data=b'POST /chunked HTTP/1.1\r\n\r\n4\r\nWiki\r\n5\r\npedia\r\nE\r\n in\r\n\r\nchunks.\r\n0\r\n\r\n',
+data=b'
+POST /chunked HTTP/1.1\r\n
+\r\n
+4\r\n
+Wiki\r\n
+5\r\n
+pedia\r\n
+E\r\n
+ in\r\n\r\nchunks.\r\n
+0\r\n
+\r\n',
 #######################################################################
 method='POST',
 path='/chunked',
@@ -166,7 +208,12 @@ error=None
 
 
 '11chunkedzero': HTTPTestCase(
-data=b'PUT /zero HTTP/1.1\r\nConnection: close\r\n\r\n0\r\n\r\n',
+data=b'
+PUT /zero HTTP/1.1\r\n
+Connection: close\r\n
+\r\n
+0\r\n
+\r\n',
 #######################################################################
 method='PUT',
 path='/zero',
@@ -178,18 +225,33 @@ error=None
 
 
 '11chunked2': HTTPTestCase(
-data=b'POST /chunked HTTP/1.1\r\nTransfer-Encoding: chunked\r\n\r\n1;token=123;x=3\r\nr\r\n0\r\n\r\n',
+data=b'
+POST /chunked HTTP/1.1\r\n
+Transfer-Encoding: chunked\r\n
+\r\n
+1;token=123;x=3\r\n
+r\r\n
+0\r\n
+\r\n',
 #######################################################################
 method='POST',
 path='/chunked',
 version='1.1',
 headers={'Transfer-Encoding': 'chunked'},
-body=b'r', error=None
+body=b'r',
+error=None
 ),
 
 
 '11chunked3': HTTPTestCase(
-data=b'POST / HTTP/1.1\r\n\r\n000002\r\nab\r\n0;q=1\r\nThis: is trailer header\r\n\r\n',
+data=b'
+POST / HTTP/1.1\r\n
+\r\n
+000002\r\n
+ab\r\n
+0;q=1\r\n
+This: is trailer header\r\n
+\r\n',
 #######################################################################
 method='POST',
 path='/',
@@ -201,7 +263,11 @@ error=None
 
 
 '11chunkedincomplete_body': HTTPTestCase(
-data=b'POST / HTTP/1.1\r\n\r\n10\r\nasd',
+data=b'
+POST / HTTP/1.1\r\n
+\r\n
+10\r\n
+asd',
 #######################################################################
 method='POST',
 path='/',
@@ -213,7 +279,11 @@ error='incomplete_body'
 
 
 '11chunkedmalformed_body': HTTPTestCase(
-data=b'POST / HTTP/1.1\r\n\r\n1x\r\nhello',
+data=b'
+POST / HTTP/1.1\r\n
+\r\n
+1x\r\n
+hello',
 #######################################################################
 method='POST',
 path='/',
