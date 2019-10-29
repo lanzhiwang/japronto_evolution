@@ -57,6 +57,7 @@ class HttpRequestParser(object):
         self.transfer = None
 
     def parse_headers(self):
+        print('************* function parse_headers *************')
         self.num_headers[0] = 10
 
         result = lib.phr_parse_request(
@@ -83,7 +84,7 @@ class HttpRequestParser(object):
         size_t *num_headers, 
         size_t last_len
         """
-        # print(result)  # 679
+        print('parse_headers-result: {}'.format(result))
 
         if result == -2:
             return result
@@ -91,7 +92,6 @@ class HttpRequestParser(object):
             self.on_error('malformed_headers')
             self._reset_state()
             self.buffer = bytearray()
-
             return result
         else:
             self._reset_state()
@@ -99,10 +99,6 @@ class HttpRequestParser(object):
         method = ffi.string(self.c_method[0], self.method_len[0]).decode('ascii')
         path = ffi.string(self.c_path[0], self.path_len[0]).decode('ascii')
         version = "1." + str(self.minor_version[0])
-        # print(method)  # GET
-        # print(path)  # /wp-content/uploads/2010/03/hello-kitty-darth-vader-pink.jpg
-        # print(version)  # 1.0
-
 
         headers = {}
         for idx in range(self.num_headers[0]):
@@ -110,21 +106,10 @@ class HttpRequestParser(object):
            name = ffi.string(header.name, header.name_len).decode('ascii').title()
            value = ffi.string(header.value, header.value_len).decode('latin1')
            headers[name] = value
-        # print(headers)
-        """
-        {
-        'Host': 'www.kittyhell.com', 
-        'User-Agent': 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; ja-JP-mac; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3 Pathtraq/0.9', 
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8', 
-        'Accept-Language': 'ja,en-us;q=0.7,en;q=0.3', 
-        'Accept-Encoding': 'gzip,deflate', 
-        'Accept-Charset': 'Shift_JIS,utf-8;q=0.7,*;q=0.7', 
-        'Keep-Alive': '115', 
-        'Cookie': 'wp_ozh_wsa_visits=2; wp_ozh_wsa_visit_lasttime=xxxxxxxxxx; __utma=xxxxxxxxx.xxxxxxxxxx.xxxxxxxxxx.xxxxxxxxxx.xxxxxxxxxx.x; __utmz=xxxxxxxxx.xxxxxxxxxx.x.x.utmccn=(referral)|utmcsr=reader.livedoor.com|utmcct=/reader/|utmcmd=referral'
-        }
-        """
 
         self.buffer = self.buffer[result:]
+        print('len(self.buffer): {}'.format(len(self.buffer)))
+        print('self.buffer: {}'.format(self.buffer))
 
         self.request = HttpRequest(method, path, version, headers)
 
@@ -133,13 +118,21 @@ class HttpRequestParser(object):
         return result
 
     def parse_body(self):
+        print('************* function parse_body *************')
+        print(self.content_length is None and self.request.method in NO_SEMANTICS)
+        print(self.content_length == 0)
+        print(self.content_length is not None)
+        print(self.transfer == 'identity')
+        print(self.transfer == 'chunked')
         if self.content_length is None and self.request.method in NO_SEMANTICS:
             self.on_body(self.request)
             return 0
+
         elif self.content_length == 0:
             self.request.body = b""
             self.on_body(self.request)
             return 0
+
         elif self.content_length is not None:
             if self.content_length > len(self.buffer):
                 return -2
@@ -151,8 +144,10 @@ class HttpRequestParser(object):
             result = self.content_length
 
             return result
+
         elif self.transfer == 'identity':
             return -2
+
         elif self.transfer == 'chunked':
             if not self.chunked_decoder:
                 self.chunked_decoder = ffi.new('struct phr_chunked_decoder*')
@@ -181,15 +176,22 @@ class HttpRequestParser(object):
             self.on_body(self.request)
             self.buffer = self.buffer[
                 self.chunked_offset[0]:self.chunked_offset[0] + result]
+            print('len(self.buffer): {}'.format(len(self.buffer)))
+            print('self.buffer: {}'.format(self.buffer))
 
             return result
 
     def feed(self, data):
+        print('************* function feed *************')
         self.buffer += data
+        print('len(self.buffer): {}'.format(len(self.buffer)))
 
         while 1:
+            print('self.state: {}'.format(self.state))
+            print('self.buffer: {}'.format(self.buffer))
             if self.state == 'headers':
                 headers_result = self.parse_headers()
+                print('headers_result: {}'.format(headers_result))
 
                 if headers_result > 0:
                     if self.request.version == "1.0":
@@ -203,12 +205,18 @@ class HttpRequestParser(object):
                     if self.content_length is not None:
                         self.content_length = int(self.content_length)
 
+                    print('self.connection: {}'.format(self.connection))  # close
+                    print('self.transfer: {}'.format(self.transfer))  # identity
+                    print('self.content_length: {}'.format(self.content_length))  # None
+
                     self.state = 'body'
                 else:
                     return None
 
+            print('self.state: {}'.format(self.state))
             if self.state == 'body':
                 body_result = self.parse_body()
+                print('body_result: {}'.format(body_result))
 
                 if body_result >= 0:
                     self.state = 'headers'
@@ -216,14 +224,20 @@ class HttpRequestParser(object):
                     return None
 
     def feed_disconnect(self):
+        print('************* function feed_disconnect *************')
+        print('len(self.buffer): {}'.format(len(self.buffer)))
+        print('self.buffer: {}'.format(self.buffer))
+
         if not self.buffer:
             return
 
         if not self.transfer:
             self.on_error('incomplete_headers')
+
         elif self.transfer == 'identity':
             self.request.body = bytes(self.buffer)
             self.on_body(self.request)
+
         elif self.transfer == 'chunked':
             self.on_error('incomplete_body')
 
