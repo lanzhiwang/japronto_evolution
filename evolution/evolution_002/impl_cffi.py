@@ -164,6 +164,8 @@ class HttpRequestParser(object):
 
             if result == -2:
                 self.buffer = self.buffer[:self.chunked_offset[0]]
+                print('len(self.buffer): {}'.format(len(self.buffer)))
+                print('self.buffer: {}'.format(self.buffer))
                 return result
             elif result == -1:
                 self.on_error('malformed_body')
