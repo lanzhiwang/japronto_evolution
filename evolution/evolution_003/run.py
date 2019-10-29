@@ -53,7 +53,7 @@ http11_chunked = "POST /chunked HTTP/1.1\r\n" \
     "\r\n"
 http11_chunked = http11_chunked.encode('ascii')
 
-def setup(dump=True, impl=impl_cffi):
+def setup(dump=True, impl=impl_cext):
     if dump:
         def on_headers(request):
             request.dump_headers()
@@ -74,7 +74,7 @@ def setup(dump=True, impl=impl_cffi):
 
 
 def main():
-    cffi_parser = setup_cffi()
+    cffi_parser = setup()
 
     print('---- long')
     cffi_parser.feed(request)

@@ -37,3 +37,34 @@ ffibuilder.cdef("""
 
 if __name__ == "__main__":
     ffibuilder.compile(verbose=True)
+
+"""
+(venv) [root@huzhi-code picohttpparser]# bash build
++ gcc -c picohttpparser.c -O3 -fPIC -msse4.2 -o ssepicohttpparser.o
++ gcc -c picohttpparser.c -O3 -fPIC -o picohttpparser.o
++ gcc -fPIC -shared -o libpicohttpparser.so picohttpparser.o ssepicohttpparser.o
+(venv) [root@huzhi-code picohttpparser]#
+
+#	picohttpparser/libpicohttpparser.so
+#	picohttpparser/picohttpparser.o
+#	picohttpparser/ssepicohttpparser.o
+
+(venv) [root@huzhi-code evolution_003]#
+
+
+(venv) [root@huzhi-code evolution_003]# python3 build_libpicohttpparser.py
+generating ./libpicohttpparser.c
+the current directory is '/root/work/japronto_evolution/evolution/evolution_003'
+running build_ext
+building 'libpicohttpparser' extension
+gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches -m64 -mtune=generic -D_GNU_SOURCE -fPIC -fwrapv -fPIC -I/root/work/japronto_evolution/evolution/evolution_003/picohttpparser -I/root/work/japronto_evolution/venv/include -I/usr/include/python3.6m -c libpicohttpparser.c -o ./libpicohttpparser.o
+gcc -pthread -shared -Wl,-z,relro -g ./libpicohttpparser.o -L/root/work/japronto_evolution/evolution/evolution_003/picohttpparser -L/usr/lib64 -lpicohttpparser -lpython3.6m -o ./libpicohttpparser.cpython-36m-x86_64-linux-gnu.so -Wl,-rpath=/root/work/japronto_evolution/evolution/evolution_003/picohttpparser
+(venv) [root@huzhi-code evolution_003]#
+
+#	libpicohttpparser.c
+#	libpicohttpparser.cpython-36m-x86_64-linux-gnu.so
+#	libpicohttpparser.o
+
+(venv) [root@huzhi-code evolution_003]#
+
+"""
