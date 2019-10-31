@@ -1,5 +1,0 @@
-perf
-uvloop
-cffi
-pytoml
-pytest
