@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import subprocess
 import os
 import sys
@@ -28,7 +30,9 @@ if __name__ == '__main__':
     def cont():
         subprocess.check_call(['pkill', '--signal', 'CONT', 'firefox'])
 
+    # atexit 模块定义了清理函数的注册和反注册函数. 被注册的函数会在解释器正常终止时执行
     atexit.register(cont)
+
     subprocess.check_call(['pkill', '--signal', 'STOP', 'firefox'])
 
     argparser = argparse.ArgumentParser(description='do_perf')
@@ -38,11 +42,11 @@ if __name__ == '__main__':
         '-b', '--benchmarks', dest='benchmarks', default='http10long,websites,websitesn')
 
     result = argparser.parse_args(sys.argv[1:])
-    parsers = result.parsers.split(',')
-    benchmarks = result.benchmarks.split(',')
+    parsers = result.parsers.split(',')  # ['cffi', 'cext']
+    benchmarks = result.benchmarks.split(',')  # ['http10long', 'websites', 'websitesn']
 
-    one_shot = [b for b in benchmarks if b in ['http10long', 'websites']]
-    multi_shot = [b for b in benchmarks if b in ['websitesn']]
+    one_shot = [b for b in benchmarks if b in ['http10long', 'websites']]  # ['http10long', 'websites']
+    multi_shot = [b for b in benchmarks if b in ['websitesn']]  # ['websitesn']
 
     setup = """
 import parsers
