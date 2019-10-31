@@ -1,3 +1,0 @@
-libasan
-lcov
-libubsan
