@@ -1,3 +1,17 @@
+# -*- coding: utf-8 -*-
+
+"""
+picohttpparser 是用 C 语言写的解析 HTTP 协议的库
+使用方法一：
+1、编译 picohttpparser
+2、使用 python 的 CFFI 库封装 picohttpparser
+3、编译成 Python 模块 libpicohttpparser
+
+使用方法二：
+1、直接使用 Python.h 直接调用 picohttpparser
+2、编译成 Python 模块 impl_cext
+"""
+
 import os.path
 
 import cffi

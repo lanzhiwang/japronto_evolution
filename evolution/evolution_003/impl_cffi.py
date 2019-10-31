@@ -1,3 +1,9 @@
+# -*- coding: utf-8 -*-
+
+"""
+使用 Python 模块 libpicohttpparser 解析 HTTP 协议内容
+"""
+
 from __future__ import print_function
 
 from libpicohttpparser import ffi, lib

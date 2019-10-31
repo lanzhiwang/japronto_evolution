@@ -1,3 +1,9 @@
+/*
+ * 直接使用 Python.h 直接调用 picohttpparser
+ *
+ */
+
+
 #include <stdbool.h>
 #include <Python.h>
 
