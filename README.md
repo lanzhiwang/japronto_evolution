@@ -2,9 +2,9 @@
 
 * https://github.com/squeaky-pl/japronto
 
-* https://github.com/squeaky-pl/japronto/commits/master?before=a526277a2f59100388c9f39d4ca22bfb4909955b+630
+* https://github.com/squeaky-pl/japronto/commits/master?before=a526277a2f59100388c9f39d4ca22bfb4909955b+525
 
-* git checkout -b evolution_19 f164b30676cf81e955e579f5528bb12e7658bdf1
+* git checkout -b evolution_20 b45d1014368bd976469059db3b3551a4cb812ed6
 
 * https://github.com/wolever/python-cffi-example
 
