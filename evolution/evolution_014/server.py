@@ -12,7 +12,10 @@ def serve(protocol_factory, reuse_port=False):
 
     server_coro = loop.create_server(
         lambda: protocol_factory(loop, protocols.handler.handle_request_block),
-        '0.0.0.0', 8080, reuse_port=reuse_port)
+        '0.0.0.0',
+        8080,
+        reuse_port=reuse_port
+    )
 
     server = loop.run_until_complete(server_coro)
 
