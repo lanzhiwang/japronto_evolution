@@ -1,0 +1,250 @@
+[10msg]
+data = """\
+POST \
+/wp-content/uploads/2010/03/hello-kitty-darth-vader-pink.jpg \
+HTTP/1.0\r\n\
+HOST: www.kittyhell.com\r\n\
+User-Agent: Mozilla/5.0 \
+  (Macintosh; U; Intel Mac OS X 10.6; ja-JP-mac; rv:1.9.2.3) \
+  Gecko/20100401 Firefox/3.6.3 Pathtraq/0.9\r\n\
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\n\
+Accept-Language: ja,en-us;q=0.7,en;q=0.3\r\n\
+Accept-Encoding: gzip,deflate\r\n\
+Accept-Charset: Shift_JIS,utf-8;q=0.7,*;q=0.7\r\n\
+Keep-Alive: 115\r\n\
+Cookie: wp_ozh_wsa_visits=2; \
+  wp_ozh_wsa_visit_lasttime=xxxxxxxxxx; \
+  __utma=xxxxxxxxx.xxxxxxxxxx.xxxxxxxxxx.xxxxxxxxxx.xxxxxxxxxx.x; \
+  __utmz=xxxxxxxxx.xxxxxxxxxx.x.x.utmccn=(referral)|utmcsr=reader.livedoor.com|utmcct=/reader/|utmcmd=referral\r\n\
+Content-Length: 11\r\n\
+\r\n\
+Hello there\
+"""
+
+method = "POST"
+path = "/wp-content/uploads/2010/03/hello-kitty-darth-vader-pink.jpg"
+version = "1.0"
+body = "Hello there"
+[10msg.headers]
+Host = "www.kittyhell.com"
+User-Agent = """Mozilla/5.0 \
+  (Macintosh; U; Intel Mac OS X 10.6; ja-JP-mac; rv:1.9.2.3) \
+  Gecko/20100401 Firefox/3.6.3 Pathtraq/0.9"""
+Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+Accept-Language = "ja,en-us;q=0.7,en;q=0.3"
+Accept-Encoding = "gzip,deflate"
+Accept-Charset = "Shift_JIS,utf-8;q=0.7,*;q=0.7"
+Keep-Alive = "115"
+Cookie = """wp_ozh_wsa_visits=2; \
+  wp_ozh_wsa_visit_lasttime=xxxxxxxxxx; \
+  __utma=xxxxxxxxx.xxxxxxxxxx.xxxxxxxxxx.xxxxxxxxxx.xxxxxxxxxx.x; \
+  __utmz=xxxxxxxxx.xxxxxxxxxx.x.x.utmccn=(referral)|utmcsr=reader.livedoor.com|utmcct=/reader/|utmcmd=referral"""
+Content-Length = "11"
+
+[10get]
+data = "GET / HTTP/1.0\r\nHost: www.example.com\r\n\r\n"
+method = "GET"
+path = "/"
+version = "1.0"
+headers = { Host = "www.example.com" }
+
+
+[10malformed_headers1]
+data = "GET / HTTP 1.0"
+error = "malformed_headers"
+
+
+[10malformed_headers2]
+data = "GET / HTTP/2"
+error = "malformed_headers"
+
+
+[10incomplete_headers]
+data = "GET / HTTP/1.0\r\nH"
+error = "incomplete_headers"
+
+
+[11get]
+data = "GET /index.html HTTP/1.1\r\n\r\n"
+method = "GET"
+path = "/index.html"
+version = "1.1"
+headers = {}
+# body = null
+
+
+[11getmsg]
+data = """\
+GET /body HTTP/1.1\r\n\
+Content-Length: 12\r\n\
+\r\n\
+Hello World!\
+"""
+method = "GET"
+path = "/body"
+version = "1.1"
+headers = { Content-Length = "12" }
+body = "Hello World!"
+
+
+[11msg]
+data = "POST /login HTTP/1.1\r\nContent-Length: 5\r\n\r\nHello"
+method = "POST"
+path = "/login"
+version = "1.1"
+headers = { Content-Length = "5" }
+body = "Hello"
+
+
+[11msgzero]
+data = "POST /zero HTTP/1.1\r\nContent-Length: 0\r\n\r\n"
+method = "POST"
+path = "/zero"
+version = "1.1"
+headers = { Content-Length = "0" }
+body = ""
+
+
+[11clincomplete_headers]
+data = """\
+POST / HTTP/1.1\r\n\
+Content-Length: 3\r\n\
+I"""
+error = "incomplete_headers"
+
+
+[11clincomplete_body]
+data = "POST / HTTP/1.1\r\nContent-Length: 5\r\n\r\nI"
+method = "POST"
+path = "/"
+version = "1.1"
+headers = { Content-Length = "5" }
+error = "incomplete_body"
+
+[11clinvalid1]
+data = "POST / HTTP/1.1\r\nContent-Length: asd\r\n\r\n"
+method = "POST"
+path = "/"
+version = "1.1"
+headers = { Content-Length = "asd" }
+error = "invalid_headers"
+
+[11clinvalid2]
+data = "POST / HTTP/1.1\r\nContent-Length: +5\r\n\r\n"
+method = "POST"
+path = "/"
+version = "1.1"
+headers = { Content-Length = "+5" }
+error = "invalid_headers"
+
+[11clinvalid3]
+data = "POST / HTTP/1.1\r\nContent-Length: -5\r\n\r\n"
+method = "POST"
+path = "/"
+version = "1.1"
+headers = { Content-Length = "+5" }
+error = "invalid_headers"
+
+[11clinvalid4]
+data = "POST / HTTP/1.1\r\nContent-Length: 4f\r\n\r\n"
+method = "POST"
+path = "/"
+version = "1.1"
+headers = { Content-Length = "4f" }
+error = "invalid_headers"
+
+[11clinvalid5]
+data = "POST / HTTP/1.1\r\nContent-Length: \r\n\r\n"
+method = "POST"
+path = "/"
+version = "1.1"
+headers = { Content-Length = "" }
+error = "invalid_headers"
+
+
+[11chunked1]
+data = """\
+POST /chunked HTTP/1.1\r\n\
+Transfer-Encoding: chunked\r\n\
+\r\n\
+4\r\n\
+Wiki\r\n\
+5\r\n\
+pedia\r\n\
+E\r\n in\r\n\
+\r\n\
+chunks.\r\n\
+0\r\n\
+\r\n\
+"""
+method = "POST"
+path = "/chunked"
+version = "1.1"
+headers = { Transfer-Encoding = "chunked" }
+body = "Wikipedia in\r\n\r\nchunks."
+
+[11chunkedzero]
+data = """
+PUT /zero HTTP/1.1\r\n\
+Transfer-Encoding: chunked\r\n\
+\r\n\
+0\r\n\
+\r\n\
+"""
+method = "PUT"
+path = "/zero"
+version = "1.1"
+headers = { Transfer-Encoding = "chunked" }
+body = ""
+
+[11chunked2]
+data = """\
+POST /chunked HTTP/1.1\r\n\
+Transfer-Encoding: chunked\r\n\
+\r\n\
+1;token=123;x=3\r\n\
+r\r\n\
+0\r\n\
+\r\n\
+"""
+method = "POST"
+path = "/chunked"
+version = "1.1"
+headers = { Transfer-Encoding = "chunked" }
+body = "r"
+
+
+[11chunked3]
+data = """\
+POST / HTTP/1.1\r\n\
+Transfer-Encoding: chunked\r\n\
+\r\n\
+000002\r\n\
+ab\r\n\
+0;q=1\r\n\
+This: is trailer header\r\n\
+\r\n\
+"""
+method = "POST"
+path = "/"
+version = "1.1"
+headers = { Transfer-Encoding = "chunked" }
+body = "ab"
+
+
+[11chunkedincomplete_body]
+data = "POST / HTTP/1.1\r\nTransfer-Encoding: chunked\r\n\r\n10\r\nasd"
+method = "POST"
+path = "/"
+version = "1.1"
+headers = { Transfer-Encoding = "chunked" }
+error = "incomplete_body"
+
+
+[11chunkedmalformed_body]
+data = "POST / HTTP/1.1\r\nTransfer-Encoding: chunked\r\n\r\n1x\r\nhello"
+method = "POST"
+path = "/"
+version = "1.1"
+headers = { Transfer-Encoding = "chunked" }
+error = "malformed_body"

@@ -1,0 +1,8 @@
+perf
+uvloop
+cffi
+pytoml
+pytest
+psutil
+urllib3
+pyelftools
