@@ -219,8 +219,16 @@ gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -O2 -g -pipe -Wall -Wp,-
 creating build/lib.linux-x86_64-3.6/response
 gcc -pthread -shared -Wl,-z,relro -g build/temp.linux-x86_64-3.6/root/work/japronto_evolution/evolution/evolution_018/response/cresponse.o build/temp.linux-x86_64-3.6/root/work/japronto_evolution/evolution/evolution_018/capsule.o -L/usr/lib64 -lpython3.6m -o build/lib.linux-x86_64-3.6/response/cresponse.cpython-36m-x86_64-linux-gnu.so
 
-gcc -I/root/work/japronto_evolution/evolution/evolution_018 -I/root/work/japronto_evolution/venv/include -I/usr/include/python3.6m -c cresponse.c -o cresponse.o
-gcc -I/root/work/japronto_evolution/evolution/evolution_018 -I/root/work/japronto_evolution/venv/include -I/usr/include/python3.6m -c capsule.c -o capsule.o
+gcc 
+-I/root/work/japronto_evolution/evolution/evolution_018 
+-I/root/work/japronto_evolution/venv/include 
+-I/usr/include/python3.6m -c cresponse.c -o cresponse.o
+
+gcc 
+-I/root/work/japronto_evolution/evolution/evolution_018 
+-I/root/work/japronto_evolution/venv/include 
+-I/usr/include/python3.6m -c capsule.c -o capsule.o
+
 gcc cresponse.o capsule.o -L/usr/lib64 -lpython3.6m -o cresponse.cpython-36m-x86_64-linux-gnu.so
 
 
