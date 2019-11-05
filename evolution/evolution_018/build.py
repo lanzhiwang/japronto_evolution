@@ -185,6 +185,19 @@ if __name__ == '__main__':
     main()
 
 """
+gcc -c cpipeline.c -o cpipeline.cpython-36m-x86_64-linux-gnu.so
+
+gcc -c cresponse.c capsule.c -o cresponse.cpython-36m-x86_64-linux-gnu.so
+
+gcc -I protocol parser pipeline router request response picohttpparser -c cprotocol.c capsule.c cparser.c cpipeline.c -o cprotocol.cpython-36m-x86_64-linux-gnu.so
+
+gcc -c cparser.c -o cparser.cpython-36m-x86_64-linux-gnu.so
+
+gcc -I picohttpparser response -c crequest.c -c capsule.c -o crequest.cpython-36m-x86_64-linux-gnu.so
+
+gcc -I request -c cmatcher.c match_dict.c capsule.c -o cmatcher.cpython-36m-x86_64-linux-gnu.so
+
+
 (venv) [root@huzhi-code picohttpparser]# bash build
 + gcc -c picohttpparser.c -O3 -fpic -msse4.2
 + gcc -shared -o libpicohttpparser.so picohttpparser.o
