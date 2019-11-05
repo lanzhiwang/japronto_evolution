@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+
+
 import signal
 import asyncio
 import traceback
@@ -7,6 +10,7 @@ import uvloop
 import router.cmatcher
 
 from protocol.cprotocol import Protocol as CProtocol
+# todo 作用是什么
 from protocol.creaper import Reaper
 
 class Application:

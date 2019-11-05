@@ -81,7 +81,7 @@ def connect(request):
 
 
 method_alphabet = string.digits + string.ascii_letters + string.punctuation
-st_method = method=st.text(method_alphabet, min_size=1)
+st_method = method = st.text(method_alphabet, min_size=1)
 @given(method=st_method)
 @settings(verbosity=Verbosity.verbose)
 def test_method(connect, method):

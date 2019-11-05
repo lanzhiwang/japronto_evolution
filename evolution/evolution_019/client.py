@@ -1,7 +1,7 @@
 import socket
 import urllib.parse
 
-
+# readline(self.sock)
 def readline(sock):
     line = b''
     while not line.endswith(b'\r\n'):
@@ -10,6 +10,7 @@ def readline(sock):
     return line
 
 
+# readexact(self.sock, int(self.headers['Content-Length']))
 def readexact(sock, size):
     data = b''
     while size:
@@ -27,6 +28,13 @@ class Response:
         self.read_status_line()
         self.read_headers()
         self.read_body()
+
+        """
+        self.status = int(self.status)
+        self.headers = {}
+        self.body = readexact(self.sock, int(self.headers['Content-Length']))
+        self.text = self.body.decode(self.encoding)
+        """
 
     def read_status_line(self):
         status_line = b''
@@ -67,6 +75,7 @@ class Response:
 
 
 class Connection:
+    # Connection('localhost:8080')
     def __init__(self, addr):
         self.addr = addr
         self.sock = None
@@ -84,6 +93,9 @@ class Connection:
 
         return self.sock
 
+    # putline(request_line)
+    # putline(header_line)
+    # putline()
     def putline(self, line=None):
         line = line or b''
         sock = self.maybe_connect()
@@ -98,6 +110,8 @@ class Connection:
         sock.sendall(data)
         self.close()
 
+    # {method} {url} HTTP/1.1
+    # putrequest('method', '/dump/', 'query_string')
     def putrequest(self, method, path, query_string=None):
         url = urllib.parse.quote(path)
         if query_string is not None:
@@ -107,10 +121,12 @@ class Connection:
             .format(method=method, url=url)
         self.putline(request_line)
 
+    # putheader('Content-Length', 10)
     def putheader(self, name, value):
         header_line = name + ': ' + value
         self.putline(header_line)
 
+    # endheaders('body')
     def endheaders(self, body=None):
         self.putline()
         if body:
@@ -122,3 +138,15 @@ class Connection:
 
     def close(self):
         self.sock.close()
+
+
+if __name__ == '__main__':
+    connection = Connection('localhost:8080')
+    connection.putrequest('method', '/dump/', 'query_string')
+    connection.putheader('Content-Length', 10)
+    connection.endheaders('body')
+
+    response = connection.getresponse()
+    print(response)
+    connection.close()
+

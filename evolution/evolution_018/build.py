@@ -207,8 +207,8 @@ creating build/lib.linux-x86_64-3.6
 creating build/lib.linux-x86_64-3.6/pipeline
 gcc -pthread -shared -Wl,-z,relro -g build/temp.linux-x86_64-3.6/root/work/japronto_evolution/evolution/evolution_018/pipeline/cpipeline.o -L/usr/lib64 -lpython3.6m -o build/lib.linux-x86_64-3.6/pipeline/cpipeline.cpython-36m-x86_64-linux-gnu.so
 
-gcc -I/root/work/japronto_evolution/venv/include -I/usr/include/python3.6m -c cpipeline.c -o cpipeline.o
-gcc cpipeline.o -L/usr/lib64 -lpython3.6m -o cpipeline.cpython-36m-x86_64-linux-gnu.so
+gcc -c cpipeline.c -o cpipeline.o
+gcc cpipeline.o -o cpipeline.cpython-36m-x86_64-linux-gnu.so
 
 
 
@@ -219,17 +219,9 @@ gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -O2 -g -pipe -Wall -Wp,-
 creating build/lib.linux-x86_64-3.6/response
 gcc -pthread -shared -Wl,-z,relro -g build/temp.linux-x86_64-3.6/root/work/japronto_evolution/evolution/evolution_018/response/cresponse.o build/temp.linux-x86_64-3.6/root/work/japronto_evolution/evolution/evolution_018/capsule.o -L/usr/lib64 -lpython3.6m -o build/lib.linux-x86_64-3.6/response/cresponse.cpython-36m-x86_64-linux-gnu.so
 
-gcc 
--I/root/work/japronto_evolution/evolution/evolution_018 
--I/root/work/japronto_evolution/venv/include 
--I/usr/include/python3.6m -c cresponse.c -o cresponse.o
-
-gcc 
--I/root/work/japronto_evolution/evolution/evolution_018 
--I/root/work/japronto_evolution/venv/include 
--I/usr/include/python3.6m -c capsule.c -o capsule.o
-
-gcc cresponse.o capsule.o -L/usr/lib64 -lpython3.6m -o cresponse.cpython-36m-x86_64-linux-gnu.so
+gcc -c cresponse.c -o cresponse.o
+gcc -c capsule.c -o capsule.o
+gcc cresponse.o capsule.o -o cresponse.cpython-36m-x86_64-linux-gnu.so
 
 
 
@@ -243,69 +235,11 @@ gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -O2 -g -pipe -Wall -Wp,-
 creating build/lib.linux-x86_64-3.6/protocol
 gcc -pthread -shared -Wl,-z,relro -g build/temp.linux-x86_64-3.6/root/work/japronto_evolution/evolution/evolution_018/protocol/cprotocol.o build/temp.linux-x86_64-3.6/root/work/japronto_evolution/evolution/evolution_018/capsule.o build/temp.linux-x86_64-3.6/root/work/japronto_evolution/evolution/evolution_018/parser/cparser.o build/temp.linux-x86_64-3.6/root/work/japronto_evolution/evolution/evolution_018/pipeline/cpipeline.o -L/root/work/japronto_evolution/evolution/evolution_018/picohttpparser -L/usr/lib64 -lpicohttpparser -lpython3.6m -o build/lib.linux-x86_64-3.6/protocol/cprotocol.cpython-36m-x86_64-linux-gnu.so -Wl,-rpath,/root/work/japronto_evolution/evolution/evolution_018/picohttpparser
 
-
-
-gcc
--I/root/work/japronto_evolution/evolution/evolution_018/protocol 
--I/root/work/japronto_evolution/evolution/evolution_018 
--I/root/work/japronto_evolution/evolution/evolution_018/parser 
--I/root/work/japronto_evolution/evolution/evolution_018/pipeline 
--I/root/work/japronto_evolution/evolution/evolution_018/router 
--I/root/work/japronto_evolution/evolution/evolution_018/request 
--I/root/work/japronto_evolution/evolution/evolution_018/response 
--I/root/work/japronto_evolution/evolution/evolution_018/picohttpparser 
--I/root/work/japronto_evolution/venv/include 
--I/usr/include/python3.6m 
--c cprotocol.c -o cprotocol.o
-
-gcc 
--I/root/work/japronto_evolution/evolution/evolution_018/protocol 
--I/root/work/japronto_evolution/evolution/evolution_018 
--I/root/work/japronto_evolution/evolution/evolution_018/parser 
--I/root/work/japronto_evolution/evolution/evolution_018/pipeline 
--I/root/work/japronto_evolution/evolution/evolution_018/router 
--I/root/work/japronto_evolution/evolution/evolution_018/request 
--I/root/work/japronto_evolution/evolution/evolution_018/response 
--I/root/work/japronto_evolution/evolution/evolution_018/picohttpparser 
--I/root/work/japronto_evolution/venv/include 
--I/usr/include/python3.6m 
--c capsule.c -o capsule.o
-
-gcc 
--I/root/work/japronto_evolution/evolution/evolution_018/protocol 
--I/root/work/japronto_evolution/evolution/evolution_018 
--I/root/work/japronto_evolution/evolution/evolution_018/parser 
--I/root/work/japronto_evolution/evolution/evolution_018/pipeline 
--I/root/work/japronto_evolution/evolution/evolution_018/router 
--I/root/work/japronto_evolution/evolution/evolution_018/request 
--I/root/work/japronto_evolution/evolution/evolution_018/response 
--I/root/work/japronto_evolution/evolution/evolution_018/picohttpparser 
--I/root/work/japronto_evolution/venv/include 
--I/usr/include/python3.6m 
--c cparser.c -o cparser.o
-
-gcc 
--I/root/work/japronto_evolution/evolution/evolution_018/protocol 
--I/root/work/japronto_evolution/evolution/evolution_018 
--I/root/work/japronto_evolution/evolution/evolution_018/parser 
--I/root/work/japronto_evolution/evolution/evolution_018/pipeline 
--I/root/work/japronto_evolution/evolution/evolution_018/router 
--I/root/work/japronto_evolution/evolution/evolution_018/request 
--I/root/work/japronto_evolution/evolution/evolution_018/response 
--I/root/work/japronto_evolution/evolution/evolution_018/picohttpparser 
--I/root/work/japronto_evolution/venv/include 
--I/usr/include/python3.6m 
--c cpipeline.c -o cpipeline.o
-
-gcc 
-cprotocol.o 
-capsule.o 
-cparser.o 
-cpipeline.o 
--L/root/work/japronto_evolution/evolution/evolution_018/picohttpparser 
--L/usr/lib64 
--lpicohttpparser 
--lpython3.6m -o cprotocol.cpython-36m-x86_64-linux-gnu.so 
+gcc -I protocol parser pipeline router request response picohttpparser -c cprotocol.c -o cprotocol.o
+gcc -I protocol parser pipeline router request response picohttpparser -c capsule.c -o capsule.o
+gcc -I protocol parser pipeline router request response picohttpparser -c cparser.c -o cparser.o
+gcc -I protocol parser pipeline router request response picohttpparser -c cpipeline.c -o cpipeline.o
+gcc cprotocol.o capsule.o cparser.o cpipeline.o -o cprotocol.cpython-36m-x86_64-linux-gnu.so 
 
 
 
@@ -314,19 +248,8 @@ gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -O2 -g -pipe -Wall -Wp,-
 creating build/lib.linux-x86_64-3.6/parser
 gcc -pthread -shared -Wl,-z,relro -g build/temp.linux-x86_64-3.6/root/work/japronto_evolution/evolution/evolution_018/parser/cparser.o -L/root/work/japronto_evolution/evolution/evolution_018/picohttpparser -L/usr/lib64 -lpicohttpparser -lpython3.6m -o build/lib.linux-x86_64-3.6/parser/cparser.cpython-36m-x86_64-linux-gnu.so -Wl,-rpath,/root/work/japronto_evolution/evolution/evolution_018/picohttpparser
 
-
-
-gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches -m64 -mtune=generic -D_GNU_SOURCE -fPIC -fwrapv -fPIC -DPARSER_STANDALONE=1 
--I/root/work/japronto_evolution/evolution/evolution_018/picohttpparser 
--I/root/work/japronto_evolution/venv/include 
--I/usr/include/python3.6m 
--c cparser.c -o cparser.o
-
-gcc cparser.o 
--L/root/work/japronto_evolution/evolution/evolution_018/picohttpparser 
--L/usr/lib64 
--lpicohttpparser 
--lpython3.6m -o cparser.cpython-36m-x86_64-linux-gnu.so
+gcc -c cparser.c -o cparser.o
+gcc cparser.o -o cparser.cpython-36m-x86_64-linux-gnu.so
 
 
 
@@ -337,24 +260,9 @@ gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -O2 -g -pipe -Wall -Wp,-
 creating build/lib.linux-x86_64-3.6/request
 gcc -pthread -shared -Wl,-z,relro -g build/temp.linux-x86_64-3.6/root/work/japronto_evolution/evolution/evolution_018/request/crequest.o build/temp.linux-x86_64-3.6/root/work/japronto_evolution/evolution/evolution_018/capsule.o -L/usr/lib64 -lpython3.6m -o build/lib.linux-x86_64-3.6/request/crequest.cpython-36m-x86_64-linux-gnu.so
 
-gcc 
--I/root/work/japronto_evolution/evolution/evolution_018/picohttpparser 
--I/root/work/japronto_evolution/evolution/evolution_018 
--I/root/work/japronto_evolution/evolution/evolution_018/response 
--I/root/work/japronto_evolution/venv/include 
--I/usr/include/python3.6m 
--c crequest.c -o crequest.o
-
-gcc 
--pthread -Wno-unused-result -Wsign-compare -DNDEBUG -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches -m64 -mtune=generic -D_GNU_SOURCE -fPIC -fwrapv -fPIC 
--I/root/work/japronto_evolution/evolution/evolution_018/picohttpparser 
--I/root/work/japronto_evolution/evolution/evolution_018 
--I/root/work/japronto_evolution/evolution/evolution_018/response 
--I/root/work/japronto_evolution/venv/include 
--I/usr/include/python3.6m 
--c capsule.c -o capsule.o
-
-gcc crequest.o capsule.o -L/usr/lib64 -lpython3.6m -o crequest.cpython-36m-x86_64-linux-gnu.so
+gcc -I picohttpparser response -c crequest.c -o crequest.o
+gcc -I picohttpparser response -c capsule.c -o capsule.o
+gcc crequest.o capsule.o -o crequest.cpython-36m-x86_64-linux-gnu.so
 
 
 
@@ -366,26 +274,10 @@ gcc -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -O2 -g -pipe -Wall -Wp,-
 creating build/lib.linux-x86_64-3.6/router
 gcc -pthread -shared -Wl,-z,relro -g build/temp.linux-x86_64-3.6/root/work/japronto_evolution/evolution/evolution_018/router/cmatcher.o build/temp.linux-x86_64-3.6/root/work/japronto_evolution/evolution/evolution_018/router/match_dict.o build/temp.linux-x86_64-3.6/root/work/japronto_evolution/evolution/evolution_018/capsule.o -L/usr/lib64 -lpython3.6m -o build/lib.linux-x86_64-3.6/router/cmatcher.cpython-36m-x86_64-linux-gnu.so
 
-gcc 
--I/root/work/japronto_evolution/evolution/evolution_018/request 
--I/root/work/japronto_evolution/evolution/evolution_018 
--I/root/work/japronto_evolution/venv/include 
--I/usr/include/python3.6m 
--c cmatcher.c -o cmatcher.o
-
-gcc 
--I/root/work/japronto_evolution/evolution/evolution_018/request 
--I/root/work/japronto_evolution/evolution/evolution_018 
--I/root/work/japronto_evolution/venv/include 
--I/usr/include/python3.6m -c match_dict.c -o match_dict.o
-
-gcc 
--I/root/work/japronto_evolution/evolution/evolution_018/request 
--I/root/work/japronto_evolution/evolution/evolution_018 
--I/root/work/japronto_evolution/venv/include 
--I/usr/include/python3.6m -c capsule.c -o capsule.o
-
-gcc cmatcher.o match_dict.o capsule.o -L/usr/lib64 -lpython3.6m -o cmatcher.cpython-36m-x86_64-linux-gnu.so
+gcc -I request -c cmatcher.c -o cmatcher.o
+gcc -I request -c match_dict.c -o match_dict.o
+gcc -I request -c capsule.c -o capsule.o
+gcc cmatcher.o match_dict.o capsule.o -o cmatcher.cpython-36m-x86_64-linux-gnu.so
 
 
 
