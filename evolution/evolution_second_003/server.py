@@ -13,26 +13,37 @@ response = [
 
 class HttpProtocol(asyncio.Protocol):
     def __init__(self, loop):
+        print('__init__')
         self.parser = impl_cext.HttpRequestParser(
             self.on_headers, self.on_body, self.on_error)
         self.loop = loop
 
     def connection_made(self, transport):
+        print('connection_made')
         self.transport = transport
 
     def connection_lost(self, exc):
+        print('connection_lost')
         self.parser.feed_disconnect()
 
     def data_received(self, data):
+        print('data_received')
         self.parser.feed(data)
 
     def on_headers(self, request):
+        print('on_headers')
+        print(request)  # <HttpRequest GET / 1.1, 3 headers>
+        request.dump_headers()
         return
 
     def on_body(self, request):
+        print('on_body')
+        print(request)  # <HttpRequest GET / 1.1, 3 headers>
+        print(request.body)
         self.loop.create_task(handle_request(request, self.transport))
 
     def on_error(self, error):
+        print('on_error')
         print(error)
 
 
