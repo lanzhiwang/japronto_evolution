@@ -2,9 +2,9 @@
 
 * https://github.com/squeaky-pl/japronto
 
-* https://github.com/squeaky-pl/japronto/commits/master?before=a526277a2f59100388c9f39d4ca22bfb4909955b+35
+* https://github.com/squeaky-pl/japronto/commits/master?after=f501c9f59fc83d0e4ab928ecdacf1735a2cc5cb6+699
 
-* git checkout master
+* git checkout -b second_01 ab1dae1705cdfd6dce57848a20289ac6a0a51fbd
 
 * https://github.com/wolever/python-cffi-example
 
