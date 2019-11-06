@@ -4,6 +4,7 @@ import cffi
 ffibuilder = cffi.FFI()
 
 shared_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'picohttpparser'))
+# /root/work/japronto_evolution/evolution/evolution_001/picohttpparser
 
 
 ffibuilder.set_source("libpicohttpparser", """
