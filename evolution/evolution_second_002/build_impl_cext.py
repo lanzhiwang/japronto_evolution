@@ -8,7 +8,7 @@ shared_path = os.path.abspath(
 impl_cext = Extension(
     'impl_cext', sources=['impl_cext.c'],
     libraries=['picohttpparser'], include_dirs=[shared_path],
-    library_dirs=[shared_path], extra_link_args=['-Wl,-rpath,' + shared_path])
+    library_dirs=[shared_path], extra_link_args=['-Wl,-rpath,' + shared_path], extra_compile_args=['-std=c99'])
 
 setup(
     name='cpyextphp', version='1.0', description='Parse request',
