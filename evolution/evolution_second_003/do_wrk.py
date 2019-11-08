@@ -29,7 +29,7 @@ def run_wrk(loop, endpoint=None):
 
 
 if __name__ == '__main__':
-    cpu.dump()
+    # cpu.dump()
     loop = uvloop.new_event_loop()
 
     aio.set_event_loop(loop)

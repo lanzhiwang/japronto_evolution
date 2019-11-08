@@ -1,8 +1,12 @@
+# -*- coding: utf-8 -*-
+
 import subprocess
 
 cpuprefix = '/sys/devices/system/cpu/'
 
 def dump():
+    # 通过 sensors 获取 cpu 温度
+    # yum install lm_sensors-3.4.0-8.20160601gitf9185e5.el7.x86_64
     sensors = subprocess.check_output('sensors').decode('utf-8')
     cores = []
     for line in sensors.splitlines():
@@ -36,3 +40,6 @@ def dump():
         print(freq, 'GHz')
 
         i += 1
+
+if __name__ == '__main__':
+    dump()
