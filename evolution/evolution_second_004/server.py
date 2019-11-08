@@ -31,3 +31,9 @@ if __name__ == '__main__':
     args = argparser.parse_args(sys.argv[1:])
 
     serve(protocols.handler.make_class(args.flavor))
+
+"""
+serve(protocols.handler.HttpProtoco)
+protocols.handler.HttpProtocol(impl_cext.HttpRequestParser, Response)
+impl_cext.HttpRequestParser(HttpRequest)
+"""
