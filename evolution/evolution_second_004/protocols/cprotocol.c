@@ -8,6 +8,7 @@
 #ifdef PARSER_STANDALONE
 static PyObject* Parser;
 #endif
+
 static PyObject* Response;
 
 
@@ -26,6 +27,7 @@ Protocol_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
 #else
   Parser_new(&self->parser);
 #endif
+
   self->loop = NULL;
   self->handler = NULL;
   self->response = NULL;

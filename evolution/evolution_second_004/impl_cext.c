@@ -54,11 +54,9 @@ static void _reset_state(Parser* self) {
 }
 
 #ifdef PARSER_STANDALONE
-static PyObject *
-Parser_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
+static PyObject *Parser_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
 #else
-void
-Parser_new(Parser* self)
+void Parser_new(Parser* self)
 #endif
 {
 #ifdef PARSER_STANDALONE
@@ -72,6 +70,7 @@ Parser_new(Parser* self)
     self->on_body = NULL;
     self->on_error = NULL;
 #endif
+
     self->request = NULL;
 
 #ifdef PARSER_STANDALONE
@@ -81,11 +80,9 @@ Parser_new(Parser* self)
 }
 
 #ifdef PARSER_STANDALONE
-static int
-Parser_init(Parser *self, PyObject *args, PyObject *kwds)
+static int Parser_init(Parser *self, PyObject *args, PyObject *kwds)
 #else
-int
-Parser_init(Parser* self, void* protocol)
+int Parser_init(Parser* self, void* protocol)
 #endif
 {
 #ifdef PARSER_STANDALONE
@@ -119,11 +116,9 @@ Parser_init(Parser* self, void* protocol)
 }
 
 #ifdef PARSER_STANDALONE
-static void
-Parser_dealloc(Parser* self)
+static void Parser_dealloc(Parser* self)
 #else
-void
-Parser_dealloc(Parser* self)
+void Parser_dealloc(Parser* self)
 #endif
 {
 #ifdef PARSER_STANDALONE
@@ -144,8 +139,7 @@ Parser_dealloc(Parser* self)
 #endif
 }
 
-#define hex_to_dec(x) \
-  ((x <= '9' ? 0 : 9) + (x & 0x0f))
+#define hex_to_dec(x) ((x <= '9' ? 0 : 9) + (x & 0x0f))
 #define is_hex(x) ((x >= '0' && x <= '9') || (x >= 'A' && x <= 'F'))
 static size_t percent_decode(char* data, ssize_t length) {
   char* end = data + length;
@@ -571,11 +565,9 @@ static int _parse_body(Parser* self) {
 
 
 #ifdef PARSER_STANDALONE
-static PyObject *
-Parser_feed(Parser* self, PyObject *args)
+static PyObject * Parser_feed(Parser* self, PyObject *args)
 #else
-Parser*
-Parser_feed(Parser* self, PyObject* py_data)
+Parser* Parser_feed(Parser* self, PyObject* py_data)
 #endif
 {
   char* data;
@@ -644,11 +636,9 @@ Parser_feed(Parser* self, PyObject* py_data)
 }
 
 #ifdef PARSER_STANDALONE
-static PyObject *
-Parser_feed_disconnect(Parser* self)
+static PyObject *Parser_feed_disconnect(Parser* self)
 #else
-Parser*
-Parser_feed_disconnect(Parser* self)
+Parser *Parser_feed_disconnect(Parser* self)
 #endif
 {
   // FIXME: can be called without __init__
@@ -734,8 +724,7 @@ Parser_feed_disconnect(Parser* self)
 }
 
 #ifdef PARSER_STANDALONE
-static PyObject *
-Parser_dump_buffer(Parser* self) {
+static PyObject *Parser_dump_buffer(Parser* self) {
   // printf("buffer: "); PyObject_Print(self->buffer, stdout, 0); printf("\n");
 
   Py_RETURN_NONE;
@@ -744,15 +733,8 @@ Parser_dump_buffer(Parser* self) {
 
 static PyMethodDef Parser_methods[] = {
     {"feed", (PyCFunction)Parser_feed, METH_VARARGS, "feed"},
-    {"feed_disconnect", (PyCFunction)Parser_feed_disconnect,
-      METH_NOARGS,
-      "feed_disconnect"
-    },
-    {
-      "_dump_buffer", (PyCFunction)Parser_dump_buffer,
-      METH_NOARGS,
-      "_dump_buffer"
-    },
+    {"feed_disconnect", (PyCFunction)Parser_feed_disconnect, METH_NOARGS, "feed_disconnect"},
+    {"_dump_buffer", (PyCFunction)Parser_dump_buffer, METH_NOARGS, "_dump_buffer"},
     {NULL}  /* Sentinel */
 };
 
@@ -808,11 +790,9 @@ static PyModuleDef impl_cext = {
 #endif
 
 #ifdef PARSER_STANDALONE
-PyMODINIT_FUNC
-PyInit_impl_cext(void)
+PyMODINIT_FUNC PyInit_impl_cext(void)
 #else
-int
-cparser_init(void)
+int cparser_init(void)
 #endif
 {
     Request = NULL;
@@ -840,11 +820,13 @@ cparser_init(void)
     Transfer_Encoding = NULL;
     val_close = NULL;
     keep_alive = NULL;
+
 #ifdef PARSER_STANDALONE
     PyObject* m = NULL;
 #else
     int m = 0;
 #endif
+
     PyObject* impl_cffi = NULL;
 
 #ifdef PARSER_STANDALONE
